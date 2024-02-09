@@ -1,3 +1,5 @@
+<img src="/img/bulc_basedon_bulgogi.png" width="300" />
+
 # bulc
 A C project build system generator for CMake.
 
