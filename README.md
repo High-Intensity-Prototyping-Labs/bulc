@@ -1,7 +1,7 @@
 <img src="/img/bulc_basedon_bulgogi.png" width="500" />
 
 # bulc
-A C project build system generator for CMake.
+Build file generator for CMake.
 
 ## bulgogi
 Bulc is based on [bulgogi](https://github.com/High-Intensity-Prototyping-Labs/bulgogi), a YAML parser for build configurations.
