@@ -1,0 +1,15 @@
+- target1:
+    - src:
+        - 'MANTIS-EPS/src/*.c'
+        - 'MANTIS-EPS/src/extras/*.cpp'
+    - inc:
+        - 'MANTIS-EPS/inc/**.h'
+    - dep:
+        - 'libc'
+        - 'libm'
+
+- target2:
+    - dep:
+        - target1
+    - src:
+        - 'src/main.c'
