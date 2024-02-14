@@ -31,6 +31,14 @@ class Target():
     def depends(self):
         return [ dep.name for dep in self.raw_depends() ]
 
+    def includes(self):
+        """Return the list of unique include directories inferred from self.headers()"""
+        includes = set()
+        for inc in self.headers():
+            inc_path = Path(inc)
+            includes.add(str(inc_path.parent))
+        return list(includes)
+
 core = bul.Core('project.yaml')
 
 target1 = Target(core.targets()[0])
