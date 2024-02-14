@@ -20,16 +20,16 @@ class Target():
         return [ dep.name for entry in self.deps if entry.name == 'dep' for dep in entry.deps ]
 
     def sources(self):
-        return [ src for raw_src in self.raw_sources() for src in glob.glob(raw_src) ]
+        return [ src for raw_src in self.raw_sources() for src in glob.glob(raw_src, recursive=True) ]
 
     def headers(self):
-        return [ inc for raw_inc in self.raw_headers() for inc in glob.glob(raw_inc) ]
+        return [ inc for raw_inc in self.raw_headers() for inc in glob.glob(raw_inc, recursive=True) ]
 
     def private(self):
-        return [ pri for raw_pri in self.raw_private() for pri in glob.glob(raw_pri) ]
+        return [ pri for raw_pri in self.raw_private() for pri in glob.glob(raw_pri, recursive=True) ]
 
     def depends(self):
-        return [ dep for raw_dep in self.raw_depends() for dep in glob.glob(raw_dep) ]
+        return self.raw_depends()
 
 core = bul.Core('project.yaml')
 
