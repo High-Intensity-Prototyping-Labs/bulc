@@ -3,7 +3,7 @@
         - 'MANTIS-EPS/src/*.c'
         - 'MANTIS-EPS/src/extras/*.cpp'
     - inc:
-        - 'MANTIS-EPS/inc/**.h'
+        - 'MANTIS-EPS/inc/**/*.h'
     - dep:
         - 'libc'
         - 'libm'
