@@ -6,22 +6,22 @@ class Target():
         self.name = target.name
         self.deps = target.deps
 
-    def sources(self):
+    def raw_sources(self):
         return [ src.name for entry in self.deps if entry.name == 'src' for src in entry.deps ]
 
-    def headers(self):
+    def raw_headers(self):
         return [ inc.name for entry in self.deps if entry.name == 'inc' for inc in entry.deps ]
 
-    def private(self):
+    def raw_private(self):
         return [ pri.name for entry in self.deps if entry.name == 'pri' for pri in entry.deps ]
 
-    def depends(self):
+    def raw_depends(self):
         return [ dep.name for entry in self.deps if entry.name == 'dep' for dep in entry.deps ]
 
 core = bul.Core('project.yaml')
 
 target1 = Target(core.targets()[0])
-print(target1.sources())
-print(target1.headers())
-print(target1.private())
-print(target1.depends())
+print(target1.raw_sources())
+print(target1.raw_headers())
+print(target1.raw_private())
+print(target1.raw_depends())
