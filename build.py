@@ -1,4 +1,5 @@
 import bulgogi as bul 
+import glob
 
 class Target():
     def __init__(self, target):
@@ -18,6 +19,9 @@ class Target():
     def raw_depends(self):
         return [ dep.name for entry in self.deps if entry.name == 'dep' for dep in entry.deps ]
 
+    def sources(self):
+        return [ src for raw_src in self.raw_sources() for src in glob.glob(raw_src) ]
+
 core = bul.Core('project.yaml')
 
 target1 = Target(core.targets()[0])
@@ -25,3 +29,7 @@ print(target1.raw_sources())
 print(target1.raw_headers())
 print(target1.raw_private())
 print(target1.raw_depends())
+
+print('')
+
+print(target1.sources())
