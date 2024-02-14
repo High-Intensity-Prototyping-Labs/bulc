@@ -39,19 +39,25 @@ class Target():
             includes.add(str(inc_path.parent))
         return list(includes)
 
+def print_target(target):
+    print(target.raw_sources())
+    print(target.raw_headers())
+    print(target.raw_private())
+    print(target.raw_depends())
+    
+    print('')
+    
+    print(target.sources())
+    print(target.headers())
+    print(target.private())
+    print(target.depends())
+    print(target.includes())
+    
+    print('')
+
 core = bul.Core('project.yaml')
 
 target1 = Target(core.targets()[0])
-print(target1.raw_sources())
-print(target1.raw_headers())
-print(target1.raw_private())
-print(target1.raw_depends())
 
-print('')
 # TODO: Make this work with the example project.yaml start to finish
 
-print(target1.sources())
-print(target1.headers())
-print(target1.private())
-print(target1.depends())
-print(target1.raw_depends())
