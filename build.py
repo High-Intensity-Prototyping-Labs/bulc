@@ -29,7 +29,7 @@ class Target():
         return [ pri for raw_pri in self.raw_private() for pri in glob.glob(raw_pri, recursive=True) ]
 
     def depends(self):
-        return self.raw_depends()
+        return [ Target(raw_dep) for raw_dep in self.deps ]
 
 core = bul.Core('project.yaml')
 
