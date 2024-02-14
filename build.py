@@ -48,6 +48,7 @@ print(target1.raw_private())
 print(target1.raw_depends())
 
 print('')
+# TODO: Make this work with the example project.yaml start to finish
 
 print(target1.sources())
 print(target1.headers())
