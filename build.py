@@ -1,5 +1,7 @@
 import bulgogi as bul 
 import glob
+from jinja2 import Environment, PackageLoader, select_autoescape
+from pathlib import Path
 
 class Target():
     def __init__(self, target):
@@ -61,3 +63,16 @@ target1 = Target(core.targets()[0])
 
 # TODO: Make this work with the example project.yaml start to finish
 
+env = Environment(
+    loader=PackageLoader("build"),
+    autoescape=select_autoescape(),
+)
+
+template = env.get_template("Makefile.jinja")
+
+print(template.render({"target": {
+    "name": "blessy",
+    "sources": ["src/one.c", "src/two.c"],
+    "includes": ["inc", ".", "inc/util"],
+    "depends": [],
+}}))
