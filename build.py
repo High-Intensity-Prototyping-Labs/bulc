@@ -17,7 +17,7 @@ class Target():
         return [ pri.name for entry in self.deps if entry.name == 'pri' for pri in entry.deps ]
 
     def raw_depends(self):
-        return [ dep.name for entry in self.deps if entry.name == 'dep' for dep in entry.deps ]
+        return [ Target(raw_dep) for raw_dep in self.deps ]
 
     def sources(self):
         return [ src for raw_src in self.raw_sources() for src in glob.glob(raw_src, recursive=True) ]
@@ -29,7 +29,7 @@ class Target():
         return [ pri for raw_pri in self.raw_private() for pri in glob.glob(raw_pri, recursive=True) ]
 
     def depends(self):
-        return [ Target(raw_dep) for raw_dep in self.deps ]
+        return [ dep.name for dep in self.raw_depends() ]
 
 core = bul.Core('project.yaml')
 
@@ -45,3 +45,4 @@ print(target1.sources())
 print(target1.headers())
 print(target1.private())
 print(target1.depends())
+print(target1.raw_depends())
