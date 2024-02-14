@@ -22,6 +22,15 @@ class Target():
     def sources(self):
         return [ src for raw_src in self.raw_sources() for src in glob.glob(raw_src) ]
 
+    def headers(self):
+        return [ inc for raw_inc in self.raw_headers() for inc in glob.glob(raw_inc) ]
+
+    def private(self):
+        return [ pri for raw_pri in self.raw_private() for pri in glob.glob(raw_pri) ]
+
+    def depends(self):
+        return [ dep for raw_dep in self.raw_depends() for dep in glob.glob(raw_dep) ]
+
 core = bul.Core('project.yaml')
 
 target1 = Target(core.targets()[0])
@@ -33,3 +42,6 @@ print(target1.raw_depends())
 print('')
 
 print(target1.sources())
+print(target1.headers())
+print(target1.private())
+print(target1.depends())
