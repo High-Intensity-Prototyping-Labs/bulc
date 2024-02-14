@@ -2,7 +2,6 @@
 TARGET_EXEC := {{ target.name }}
 
 BUILD_DIR := ./build
-LIB_DIRS := ./lib
 
 # TODO: There needs to be a way for deps/libs to be compiled in the same directory and exes to -L that directory.
 
@@ -26,7 +25,7 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 # Every library which needs to be linked to the target needs to be passed to GCC
 LIBS := {% for lib in target.depends %}{{ lib }} {% endfor %}
 # Linker flags to be passed to GCC based on needed flags.
-LDFLAGS := $(addprefix -L,$(LIB_DIRS)) $(addprefix -l,$(LIBS))
+LDFLAGS := $(addprefix -l,$(LIBS))
 
 # The -MMD and -MP flags together generate Makefiles for us!
 # These files will have .d instead of .o as the output.
@@ -46,16 +45,9 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	mkdir -p $(dir $@)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-
-.PHONY: clean prints
+.PHONY: clean
 clean:
 	rm -r $(BUILD_DIR)
-
-prints:
-	@echo $(INC_DIRS)
-	@echo $(INC_FLAGS)
-	@echo $(LIBS)
-	@echo $(LDFLAGS)
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those
 # errors to show up.
