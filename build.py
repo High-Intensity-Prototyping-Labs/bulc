@@ -59,7 +59,7 @@ def print_target(target):
 
 core = bul.Core('project.yaml')
 
-target1 = Target(core.targets()[0])
+target = Target(core.targets()[0])
 
 # TODO: Make this work with the example project.yaml start to finish
 
@@ -71,8 +71,8 @@ env = Environment(
 template = env.get_template("Makefile.jinja")
 
 print(template.render({"target": {
-    "name": "blessy",
-    "sources": ["src/one.c", "src/two.c"],
-    "includes": ["inc", ".", "inc/util"],
-    "depends": [],
+    "name": target.name,
+    "sources": target.sources(),
+    "includes": target.includes(),
+    "depends": target.depends(),
 }}))
