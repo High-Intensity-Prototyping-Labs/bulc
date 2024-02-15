@@ -37,6 +37,17 @@ class Target():
         """Return the list of unique include directories inferred from self.headers()"""
         return set([ str(Path(inc).parent) for inc in self.headers() ])
 
+    def expose(self):
+        """Return the dictionary form of the target to pass to template renderer"""
+        return {
+                "name": self.name,
+                "sources": self.sources(),
+                "headers": self.headers(),
+                "private": self.private(),
+                "depends": self.depends(),
+                "includes": self.includes(),
+        }
+
 def print_target(target):
     print(target.raw_sources())
     print(target.raw_headers())
