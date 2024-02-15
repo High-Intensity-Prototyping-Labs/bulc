@@ -33,7 +33,7 @@ class Target():
         """Return the list of unique include directories inferred from self.headers()"""
         return set([ str(Path(inc).parent) for inc in self.headers() ])
 
-    def expose(self):
+    def expand(self):
         """Return the dictionary form of the target to pass to template renderer"""
         return {
             "name": self.name,
@@ -51,7 +51,7 @@ class Project:
         self.depends = set([ lib for target in self.targets for lib in target.depends() ])
         self.includes = set([ inc_dir for target in self.targets for inc_dir in target.includes() ])
 
-    def expose(self):
+    def expand(self):
         """Return the dictionary form of the project to pass to template renderer"""
         return {
             "targets": [target.name for target in self.targets],
