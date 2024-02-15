@@ -83,8 +83,6 @@ core = bul.Core('project.yaml')
 
 target = Target(core.targets()[0])
 
-# TODO: Make this work with the example project.yaml start to finish
-
 env = Environment(
     loader=PackageLoader("build"),
     autoescape=select_autoescape(),
