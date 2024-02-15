@@ -74,16 +74,3 @@ def print_target(target):
     print(target.includes())
     
     print('')
-
-core = bul.Core('project.yaml')
-
-target = Target(core.targets()[0])
-
-env = Environment(
-    loader=PackageLoader("build"),
-    autoescape=select_autoescape(),
-)
-
-template = env.get_template("Makefile.jinja")
-
-print(template.render(target.expose()))
