@@ -7,19 +7,19 @@ class Target():
     def __init__(self, target):
         self.id = target.id
         self.name = target.name
-        self.deps = target.deps
+        self.__deps = target.deps
 
     def raw_sources(self):
-        return [ src.name for entry in self.deps if entry.name == 'src' for src in entry.deps ]
+        return [ src.name for entry in self.__deps if entry.name == 'src' for src in entry.deps ]
 
     def raw_headers(self):
-        return [ inc.name for entry in self.deps if entry.name == 'inc' for inc in entry.deps ]
+        return [ inc.name for entry in self.__deps if entry.name == 'inc' for inc in entry.deps ]
 
     def raw_private(self):
-        return [ pri.name for entry in self.deps if entry.name == 'pri' for pri in entry.deps ]
+        return [ pri.name for entry in self.__deps if entry.name == 'pri' for pri in entry.deps ]
 
     def raw_depends(self):
-        return [ dep.name for entry in self.deps if entry.name == 'dep' for dep in entry.deps ]
+        return [ dep.name for entry in self.__deps if entry.name == 'dep' for dep in entry.deps ]
 
     def sources(self):
         return [ src for raw_src in self.raw_sources() for src in glob.glob(raw_src, recursive=True) ]
