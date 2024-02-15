@@ -69,6 +69,8 @@ template = env.get_template("Makefile.jinja")
 print(template.render({"target": {
     "name": target.name,
     "sources": target.sources(),
-    "includes": target.includes(),
+    "headers": target.headers(),
+    "private": target.private(),
     "depends": target.depends(),
+    "includes": target.includes(),
 }}))
