@@ -8,30 +8,22 @@ class Target():
         self.id = target.id
         self.name = target.name
         self.__deps = target.deps
-
-    def raw_sources(self):
-        return [ src.name for entry in self.__deps if entry.name == 'src' for src in entry.deps ]
-
-    def raw_headers(self):
-        return [ inc.name for entry in self.__deps if entry.name == 'inc' for inc in entry.deps ]
-
-    def raw_private(self):
-        return [ pri.name for entry in self.__deps if entry.name == 'pri' for pri in entry.deps ]
-
-    def raw_depends(self):
-        return [ dep.name for entry in self.__deps if entry.name == 'dep' for dep in entry.deps ]
+        self.raw_sources = [ src.name for entry in self.__deps if entry.name == 'src' for src in entry.deps ]
+        self.raw_headers = [ inc.name for entry in self.__deps if entry.name == 'inc' for inc in entry.deps ]
+        self.raw_private = [ pri.name for entry in self.__deps if entry.name == 'pri' for pri in entry.deps ]
+        self.raw_depends = [ dep.name for entry in self.__deps if entry.name == 'dep' for dep in entry.deps ]
 
     def sources(self):
-        return [ src for raw_src in self.raw_sources() for src in glob.glob(raw_src, recursive=True) ]
+        return [ src for raw_src in self.raw_sources for src in glob.glob(raw_src, recursive=True) ]
 
     def headers(self):
-        return [ inc for raw_inc in self.raw_headers() for inc in glob.glob(raw_inc, recursive=True) ]
+        return [ inc for raw_inc in self.raw_headers for inc in glob.glob(raw_inc, recursive=True) ]
 
     def private(self):
-        return [ pri for raw_pri in self.raw_private() for pri in glob.glob(raw_pri, recursive=True) ]
+        return [ pri for raw_pri in self.raw_private for pri in glob.glob(raw_pri, recursive=True) ]
 
     def depends(self):
-        return self.raw_depends()
+        return self.raw_depends
 
     def includes(self):
         """Return the list of unique include directories inferred from self.headers()"""
