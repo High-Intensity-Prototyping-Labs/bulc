@@ -54,7 +54,7 @@ class Project:
     def expose(self):
         """Return the dictionary form of the project to pass to template renderer"""
         return {
-            "targets": self.targets,
+            "targets": [target.name for target in self.targets],
             "depends": self.depends,
             "includes": self.includes,
         }
