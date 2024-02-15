@@ -35,11 +35,7 @@ class Target():
 
     def includes(self):
         """Return the list of unique include directories inferred from self.headers()"""
-        includes = set()
-        for inc in self.headers():
-            inc_path = Path(inc)
-            includes.add(str(inc_path.parent))
-        return list(includes)
+        return set([ str(Path(inc).parent) for inc in self.headers() ])
 
 def print_target(target):
     print(target.raw_sources())
