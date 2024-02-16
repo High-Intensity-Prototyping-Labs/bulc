@@ -46,21 +46,6 @@ class Target():
             }
         }
 
-class Project:
-    def __init__(self, from_file='project.yaml'):
-        self.core = bul.Core(from_file)
-        self.targets = [Target(t) for t in self.core.targets() ]
-        self.depends = set([ lib for target in self.targets for lib in target.depends() ])
-        self.includes = set([ inc_dir for target in self.targets for inc_dir in target.includes() ])
-
-    def expand(self):
-        """Return the dictionary form of the project to pass to template renderer"""
-        return {
-            "targets": [target.name for target in self.targets],
-            "depends": self.depends,
-            "includes": self.includes,
-        }
-
 def print_target(target):
     print(target.raw_sources())
     print(target.raw_headers())
