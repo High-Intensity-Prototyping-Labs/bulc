@@ -8,22 +8,30 @@ class Target():
         self.id = target.id
         self.name = target.name
         self.deps = target.deps
-        self.raw_sources = [ src.name for entry in self.deps if entry.name == 'src' for src in entry.deps ]
-        self.raw_headers = [ inc.name for entry in self.deps if entry.name == 'inc' for inc in entry.deps ]
-        self.raw_private = [ pri.name for entry in self.deps if entry.name == 'pri' for pri in entry.deps ]
-        self.raw_depends = [ dep.name for entry in self.deps if entry.name == 'dep' for dep in entry.deps ]
+        
+    def raw_sources(self):
+        return [ src.name for entry in self.deps if entry.name == 'src' for src in entry.deps ]
+    
+    def raw_headers(self):
+        return [ inc.name for entry in self.deps if entry.name == 'inc' for inc in entry.deps ]
+    
+    def raw_private(self):
+        return [ pri.name for entry in self.deps if entry.name == 'pri' for pri in entry.deps ]
+    
+    def raw_depends(self):
+        return [ dep.name for entry in self.deps if entry.name == 'dep' for dep in entry.deps ]
 
     def sources(self):
         """Matches `raw_sources` file patterns (using glob) in the filesystem when called"""
-        return [ src for raw_src in self.raw_sources for src in glob.glob(raw_src, recursive=True) ]
+        return [ src for raw_src in self.raw_sources() for src in glob.glob(raw_src, recursive=True) ]
 
     def headers(self):
         """Matches `raw_headers` file patterns (using glob) in the filesystem when called"""
-        return [ inc for raw_inc in self.raw_headers for inc in glob.glob(raw_inc, recursive=True) ]
+        return [ inc for raw_inc in self.raw_headers() for inc in glob.glob(raw_inc, recursive=True) ]
 
     def private(self):
         """Matches `raw_private` file patterns (using glob) in the filesystem when called"""
-        return [ pri for raw_pri in self.raw_private for pri in glob.glob(raw_pri, recursive=True) ]
+        return [ pri for raw_pri in self.raw_private() for pri in glob.glob(raw_pri, recursive=True) ]
 
     def depends(self):
         """Return value of `raw_depends`"""
