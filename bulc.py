@@ -7,11 +7,11 @@ class Target():
     def __init__(self, target):
         self.id = target.id
         self.name = target.name
-        self.__deps = target.deps
-        self.raw_sources = [ src.name for entry in self.__deps if entry.name == 'src' for src in entry.deps ]
-        self.raw_headers = [ inc.name for entry in self.__deps if entry.name == 'inc' for inc in entry.deps ]
-        self.raw_private = [ pri.name for entry in self.__deps if entry.name == 'pri' for pri in entry.deps ]
-        self.raw_depends = [ dep.name for entry in self.__deps if entry.name == 'dep' for dep in entry.deps ]
+        self.deps = target.deps
+        self.raw_sources = [ src.name for entry in self.deps if entry.name == 'src' for src in entry.deps ]
+        self.raw_headers = [ inc.name for entry in self.deps if entry.name == 'inc' for inc in entry.deps ]
+        self.raw_private = [ pri.name for entry in self.deps if entry.name == 'pri' for pri in entry.deps ]
+        self.raw_depends = [ dep.name for entry in self.deps if entry.name == 'dep' for dep in entry.deps ]
 
     def sources(self):
         """Matches `raw_sources` file patterns (using glob) in the filesystem when called"""
