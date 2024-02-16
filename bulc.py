@@ -35,7 +35,7 @@ class Target():
 
     def depends(self):
         """Return value of `raw_depends`"""
-        return self.raw_depends
+        return self.raw_depends()
 
     def includes(self):
         """Return the list of unique include directories inferred from self.headers()"""
