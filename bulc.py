@@ -54,6 +54,25 @@ class Target():
             }
         }
 
+class Project(Target):
+    def __init__(self, from_file):
+        self.core = bul.Core(from_file=from_file)
+        super().__init__(self.core.raw_targets()[0])
+
+    def raw_sources(self):
+        return [ src for dep in [Target(c_dep) for c_dep in self.deps ] for src in dep.raw_sources() ]
+
+    def raw_headers(self):
+        return [ inc for dep in [ Target(c_dep) for c_dep in self.deps ] for inc in dep.raw_headers() ]
+
+    def raw_private(self):
+        return [ pri for dep in [ Target(c_dep) for c_dep in self.deps ] for pri in dep.raw_private() ]
+
+    def raw_depends(self):
+        return [ lib for dep in [ Target(c_dep) for c_dep in self.deps ] for lib in dep.raw_depends() ]
+
+# TODO: Store `Target`s in `self.deps` in `Target` instead of `bul_target_s deps` type
+
 def print_target(target):
     print(target.raw_sources())
     print(target.raw_headers())
