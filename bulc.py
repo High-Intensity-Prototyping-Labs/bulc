@@ -72,6 +72,7 @@ class Project(Target):
         return [ lib for dep in [ Target(c_dep) for c_dep in self.deps ] for lib in dep.raw_depends() ]
 
 # TODO: Store `Target`s in `self.deps` in `Target` instead of `bul_target_s deps` type
+# TODO: Implement a strategy to de-duplicate sources/headers/private in an elegant way (non-redundant)
 
 def print_target(target):
     print(target.raw_sources())
