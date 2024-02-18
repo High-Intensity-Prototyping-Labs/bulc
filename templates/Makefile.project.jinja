@@ -27,7 +27,7 @@ BUILD_DIR := ./build
 
 # The -MMD and -MP flags together generate Makefiles for us!
 # These files will have .d instead of .o as the output.
-CPPFLAGS := {% for target in project.targets %}$(TARGET_{{ target.name }}_INC_FLAGS){% endfor %} -MMD -MP
+CPPFLAGS := {% for target in project.targets() %}$(TARGET_{{ target.name }}_INC_FLAGS) {% endfor %} -MMD -MP
 
 all: {% for target in project.targets() %}$(BUILD_DIR)/$(TARGET_{{ target.name }}) {% endfor %}
 
