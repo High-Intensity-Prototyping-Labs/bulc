@@ -1,0 +1,56 @@
+# Thanks to Job Vranish (https://spin.atomicobject.com/2016/08/26/makefile-c-projects/)
+
+{% macro decl_target(target) -%}
+TARGET_{{ target.name }} := {{ target.name }}
+TARGET_{{ target.name }}_SRCS := {% for src in target.sources %}{{ src }} {% endfor %}
+TARGET_{{ target.name }}_OBJS := $(TARGET_{{ target.name }}_SRCS:%=$(BUILD_DIR)/%.o)
+TARGET_{{ target.name }}_DEPS := $(TARGET_{{ target.name }}_OBJS:.o=.d)
+TARGET_{{ target.name }}_INC_DIRS := {% for inc in target.includes %}{{ inc }} {% endfor %}
+TARGET_{{ target.name }}_INC_FLAGS := $(addprefix -I,$(TARGET_{{ target.name }}_INC_DIRS))
+TARGET_{{ target.name }}_LIBS := {% for lib in target.depends %}{{ lib }} {% endfor %}
+TARGET_{{ target.name }}_LDFLAGS := $(addprefix -l,$(TARGET_{{ target.name }}_LIBS))
+{%- endmacro -%}
+
+{%- macro target_recipe(target) -%}
+$(BUILD_DIR)/$(TARGET_{{ target.name }}): $(TARGET_{{ target.name }}_OBJS)
+	$(CXX) $(TARGET_{{ target.name }}_OBJS) -o $@ $(TARGET_{{ target.name }}_LDFLAGS)
+{%- endmacro -%}
+
+
+BUILD_DIR := ./build
+
+{% for target in project.targets -%}
+# Declaring Target '{{ target.name }}'
+{{ decl_target(target) }}
+{%- endfor %}
+
+# The -MMD and -MP flags together generate Makefiles for us!
+# These files will have .d instead of .o as the output.
+CPPFLAGS := {% for target in project.targets %}$(TARGET_{{ target.name }}_INC_FLAGS){% endfor %} -MMD -MP
+
+all: {% for target in project.targets %}$(BUILD_DIR)/$(TARGET_{{ target.name }}) {% endfor %}
+
+{% for target in project.targets -%}
+# Target '{{ target.name }}' Recipe
+{{ target_recipe(target) }}
+{%- endfor %}
+
+# Build step for C source
+$(BUILD_DIR)/%.c.o: %.c
+	mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+# Build step for C++ source
+$(BUILD_DIR)/%.cpp.o: %.cpp
+	mkdir -p $(dir $@)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+
+.PHONY: all clean
+clean:
+	rm -r $(BUILD_DIR)
+# Include the .d makefiles. The - at the front suppresses the errors of missing
+# Makefiles. Initially, all the .d files will be missing, and we don't want those
+# errors to show up.
+{%- for target in project.targets %}
+-include $(TARGET_{{ target.name }}_DEPS)
+{%- endfor %}
