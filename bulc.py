@@ -44,14 +44,12 @@ class Target():
     def expand(self):
         """Return the dictionary form of the target to pass to template renderer"""
         return {
-            "target": {
-                "name": self.name,
-                "sources": self.sources(),
-                "headers": self.headers(),
-                "private": self.private(),
-                "depends": self.depends(),
-                "includes": self.includes(),
-            }
+            "name": self.name,
+            "sources": self.sources(),
+            "headers": self.headers(),
+            "private": self.private(),
+            "depends": self.depends(),
+            "includes": self.includes(),
         }
 
 class Project(Target):
