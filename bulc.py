@@ -8,6 +8,7 @@ class Target():
         self.id = target.id
         self.name = target.name
         self.deps = target.deps
+        # These deps are 'src', 'inc', 'pri' and 'dep'
         
     def raw_sources(self):
         return [ src.name for entry in self.deps if entry.name == 'src' for src in entry.deps ]
