@@ -69,6 +69,16 @@ class Project(Target):
     def raw_depends(self):
         return [ lib for dep in [ Target(c_dep) for c_dep in self.deps ] for lib in dep.raw_depends() ]
 
+    def targets(self):
+        return [ Target(t) for t in self.core.targets() ]
+
+    def expand(self):
+        return {
+            "targets": [
+                [ target.expand() for target in self.targets() ]
+            ]
+        }
+
 # TODO: Store `Target`s in `self.deps` in `Target` instead of `bul_target_s deps` type
 # TODO: Implement a strategy to de-duplicate sources/headers/private in an elegant way (non-redundant)
 
