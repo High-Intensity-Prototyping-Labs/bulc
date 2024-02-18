@@ -1,5 +1,14 @@
 - target:
     - src:
-        - 'MANTIS-EPS/src/*.c'
+        - 'MANTIS-EPS/src/mantis.c'
+        - 'MANTIS-EPS/src/main.c'
     - inc:
         - 'MANTIS-EPS/inc/**/*.h'
+
+- target2:
+  - src: 
+    - 'MANTIS-EPS/src/root.c'
+    - 'MANTIS-EPS/src/main.c'
+
+  - inc:
+    - 'MANTIS-EPS/inc/**/*.h'

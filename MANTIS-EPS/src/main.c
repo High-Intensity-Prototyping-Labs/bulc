@@ -4,9 +4,9 @@
 #include "mantis/util/util.h"
 int main() {
 	printf("main() is running...\n");
-	mantis();
-	root();
-	util();
+	//mantis();
+	//root();
+	//util();
 
 	return 0;
 }
