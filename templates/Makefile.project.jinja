@@ -1,6 +1,6 @@
 # Thanks to Job Vranish (https://spin.atomicobject.com/2016/08/26/makefile-c-projects/)
 
-{% macro decl_target(target) -%}
+{% macro decl_target(target) %}
 # Declaring Target '{{ target.name }}'
 TARGET_{{ target.name }} := {{ target.name }}
 TARGET_{{ target.name }}_SRCS := {% for src in target.sources() %}{{ src }} {% endfor %}
@@ -10,13 +10,13 @@ TARGET_{{ target.name }}_INC_DIRS := {% for inc in target.includes() %}{{ inc }}
 TARGET_{{ target.name }}_INC_FLAGS := $(addprefix -I,$(TARGET_{{ target.name }}_INC_DIRS))
 TARGET_{{ target.name }}_LIBS := {% for lib in target.depends() %}{{ lib }} {% endfor %}
 TARGET_{{ target.name }}_LDFLAGS := $(addprefix -l,$(TARGET_{{ target.name }}_LIBS))
-{%- endmacro -%}
+{% endmacro -%}
 
-{%- macro target_recipe(target) -%}
+{% macro target_recipe(target) %}
 # Target '{{ target.name }}' Recipe
 $(BUILD_DIR)/$(TARGET_{{ target.name }}): $(TARGET_{{ target.name }}_OBJS)
 	$(CC) $(TARGET_{{ target.name }}_OBJS) -o $@ $(TARGET_{{ target.name }}_LDFLAGS)
-{%- endmacro -%}
+{% endmacro -%}
 
 
 BUILD_DIR := ./build
