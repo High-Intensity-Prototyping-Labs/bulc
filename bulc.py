@@ -74,9 +74,7 @@ class Project(Target):
 
     def expand(self):
         return {
-            "targets": [
-                [ target.expand() for target in self.targets() ]
-            ]
+            "targets": [ target.expand() for target in self.targets() ]
         }
 
 # TODO: Store `Target`s in `self.deps` in `Target` instead of `bul_target_s deps` type
