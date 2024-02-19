@@ -5,8 +5,8 @@ from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoad
 from pathlib import Path
 
 class TargetType(Enum):
-    EXE = auto
-    LIB = auto
+    EXE = auto()
+    LIB = auto()
 
 class Target():
     def __init__(self, target):
