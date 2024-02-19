@@ -60,16 +60,16 @@ class Project(Target):
         self.targets = [ Target(t) for t in self.deps ]
 
     def raw_sources(self):
-        return [ src for dep in [Target(c_dep) for c_dep in self.deps ] for src in dep.raw_sources() ]
+        return [ src for dep in self.targets for src in dep.raw_sources() ]
 
     def raw_headers(self):
-        return [ inc for dep in [ Target(c_dep) for c_dep in self.deps ] for inc in dep.raw_headers() ]
+        return [ inc for dep in self.targets for inc in dep.raw_headers() ]
 
     def raw_private(self):
-        return [ pri for dep in [ Target(c_dep) for c_dep in self.deps ] for pri in dep.raw_private() ]
+        return [ pri for dep in self.targets for pri in dep.raw_private() ]
 
     def raw_depends(self):
-        return [ lib for dep in [ Target(c_dep) for c_dep in self.deps ] for lib in dep.raw_depends() ]
+        return [ lib for dep in self.targets for lib in dep.raw_depends() ]
 
     # FIXME: This func could conflate targets sharing names but not IDs
     def type_of(self, search_target):
