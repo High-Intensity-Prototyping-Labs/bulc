@@ -73,18 +73,14 @@ class Project(Target):
     def targets(self):
         return [ Target(t) for t in self.core.targets() ]
 
-    def type_of(self, target):
+    def type_of(self, search_target):
         """Return the specified target type"""
-        other_depends = []
-        for other_target in self.targets():
-            if target.id == other_target.id:
-                continue
-            else:
-                other_depends.append(other_target.depends())
-        if target.name in other_depends:
-            return 'bul.LIB'
-        else:
-            return 'bul.EXE'
+        for target in self.targets():
+            if target.id == search_target.id:
+                continue 
+            if search_target.name in target.depends():
+                return 'bul.LIB'
+        return 'bul.EXE'
 
 
     def expand(self):
