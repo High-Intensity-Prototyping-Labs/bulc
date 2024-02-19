@@ -96,7 +96,7 @@ class Project(Target):
                     continue 
                 # Check other target deps by ID
                 for raw_dep in next_target.raw_depends():
-                    for entry in raw_dep:
+                    for entry in raw_dep.deps:
                         if entry.name == 'dep':
                             if raw_dep.id == target.id:
                                 # Update target 
