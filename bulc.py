@@ -90,19 +90,16 @@ class Project(Target):
         return 'bul.EXE'
 
     def update_targets(self):
-        for target in self.targets:
-            for next_target in self.targets:
-                if target == next_target:
+        other_targets = []
+        for target_x in self.targets:
+            for target_y in self.targets:
+                if target_x.id == target_y.id:
                     continue 
-                # Check other target deps by ID
-                for raw_dep in next_target.raw_depends():
-                    for entry in raw_dep.deps:
-                        if entry.name == 'dep':
-                            if raw_dep.id == target.id:
-                                # Update target 
-                                target.type = TargetType.LIB
-
-
+                for dep_y in target_y.deps:
+                    print('dep_y = ' + dep_y.name)
+                    if dep_y.id == target_x.id:
+                        target_x.type = TargetType.LIB
+                    
     def expand(self):
         return {
             "targets": [ target.expand() for target in self.targets ]
