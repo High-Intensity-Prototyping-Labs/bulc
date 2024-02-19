@@ -73,6 +73,7 @@ class Project(Target):
     def targets(self):
         return [ Target(t) for t in self.core.targets() ]
 
+    # FIXME: This func could conflate targets sharing names but not IDs
     def type_of(self, search_target):
         """Return the specified target type"""
         for target in self.targets():
