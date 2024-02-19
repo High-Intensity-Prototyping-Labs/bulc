@@ -95,9 +95,12 @@ class Project(Target):
             for target_y in self.targets:
                 if target_x.id == target_y.id:
                     continue 
-                for dep_y in target_y.deps:
+                for dep_y in target_y.raw_depends():
                     print('dep_y = ' + dep_y.name)
+                    print('target_x.id = ' + str(target_x.id) + ', dep_y.id = ' + str(dep_y.id))
+                    print()
                     if dep_y.id == target_x.id:
+                        print('MATCH')
                         target_x.type = TargetType.LIB
                     
     def expand(self):
