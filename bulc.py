@@ -57,6 +57,7 @@ class Project(Target):
     def __init__(self, from_file):
         self.core = bul.Core(from_file=from_file)
         super().__init__(self.core.raw_targets()[0])
+        self.targets = [ Target(t) for t in self.deps ]
 
     def raw_sources(self):
         return [ src for dep in [Target(c_dep) for c_dep in self.deps ] for src in dep.raw_sources() ]
@@ -70,13 +71,10 @@ class Project(Target):
     def raw_depends(self):
         return [ lib for dep in [ Target(c_dep) for c_dep in self.deps ] for lib in dep.raw_depends() ]
 
-    def targets(self):
-        return [ Target(t) for t in self.core.targets() ]
-
     # FIXME: This func could conflate targets sharing names but not IDs
     def type_of(self, search_target):
         """Return the specified target type"""
-        for target in self.targets():
+        for target in self.targets:
             if target.id == search_target.id:
                 continue 
             if search_target.name in target.depends():
@@ -86,7 +84,7 @@ class Project(Target):
 
     def expand(self):
         return {
-            "targets": [ target.expand() for target in self.targets() ]
+            "targets": [ target.expand() for target in self.targets ]
         }
 
 # TODO: Store `Target`s in `self.deps` in `Target` instead of `bul_target_s deps` type
