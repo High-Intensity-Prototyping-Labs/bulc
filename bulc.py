@@ -1,13 +1,19 @@
+from enum import Enum, auto
 import bulgogi as bul 
 import glob
 from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 from pathlib import Path
+
+class TargetType(Enum):
+    EXE = auto
+    LIB = auto
 
 class Target():
     def __init__(self, target):
         self.id = target.id
         self.name = target.name
         self.deps = target.deps
+        self.type = TargetType.EXE
         # These deps are 'src', 'inc', 'pri' and 'dep'
         
     def raw_sources(self):
@@ -46,6 +52,7 @@ class Target():
         """Return the dictionary form of the target to pass to template renderer"""
         return {
             "name": self.name,
+            "type": self.type.name,
             "sources": self.sources(),
             "headers": self.headers(),
             "private": self.private(),
