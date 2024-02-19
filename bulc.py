@@ -58,6 +58,7 @@ class Project(Target):
         self.core = bul.Core(from_file=from_file)
         super().__init__(self.core.raw_targets()[0])
         self.targets = [ Target(t) for t in self.deps ]
+        self.update_targets()
 
     def raw_sources(self):
         return [ src for dep in self.targets for src in dep.raw_sources() ]
