@@ -24,19 +24,19 @@ class Target():
 
     def sources(self):
         """Matches `raw_sources` file patterns (using glob) in the filesystem when called"""
-        return [ src for raw_src in self.raw_sources() for src in glob.glob(raw_src, recursive=True) ]
+        return [ src for raw_src in self.raw_sources() for src in glob.glob(raw_src.name, recursive=True) ]
 
     def headers(self):
         """Matches `raw_headers` file patterns (using glob) in the filesystem when called"""
-        return [ inc for raw_inc in self.raw_headers() for inc in glob.glob(raw_inc, recursive=True) ]
+        return [ inc for raw_inc in self.raw_headers() for inc in glob.glob(raw_inc.name, recursive=True) ]
 
     def private(self):
         """Matches `raw_private` file patterns (using glob) in the filesystem when called"""
-        return [ pri for raw_pri in self.raw_private() for pri in glob.glob(raw_pri, recursive=True) ]
+        return [ pri for raw_pri in self.raw_private() for pri in glob.glob(raw_pri.name, recursive=True) ]
 
     def depends(self):
         """Return value of `raw_depends`"""
-        return self.raw_depends()
+        return [ raw_depends.name for raw_depends in self.raw_depends() ]
 
     def includes(self):
         """Return the list of unique include directories inferred from self.headers()"""
