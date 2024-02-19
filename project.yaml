@@ -13,6 +13,9 @@
   - inc:
     - 'MANTIS-EPS/inc/**/*.h'
 
+  - dep:
+    - target3
+
 - target3:
   - src: 
     - 'MANTIS-EPS/src/root.c'
