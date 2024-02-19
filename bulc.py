@@ -81,6 +81,19 @@ class Project(Target):
                 return 'bul.LIB'
         return 'bul.EXE'
 
+    def update_targets(self):
+        for target in self.targets:
+            for next_target in self.targets:
+                if target == next_target:
+                    continue 
+                # Check other target deps by ID
+                for raw_dep in next_target.raw_depends():
+                    for entry in raw_dep:
+                        if entry.name == 'dep':
+                            if raw_dep.id == target.id:
+                                # Update target 
+                                target.type = TargetType.LIB
+
 
     def expand(self):
         return {
