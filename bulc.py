@@ -11,16 +11,16 @@ class Target():
         # These deps are 'src', 'inc', 'pri' and 'dep'
         
     def raw_sources(self):
-        return [ src.name for entry in self.deps if entry.name == 'src' for src in entry.deps ]
+        return [ src for entry in self.deps if entry.name == 'src' for src in entry.deps ]
     
     def raw_headers(self):
-        return [ inc.name for entry in self.deps if entry.name == 'inc' for inc in entry.deps ]
+        return [ inc for entry in self.deps if entry.name == 'inc' for inc in entry.deps ]
     
     def raw_private(self):
-        return [ pri.name for entry in self.deps if entry.name == 'pri' for pri in entry.deps ]
+        return [ pri for entry in self.deps if entry.name == 'pri' for pri in entry.deps ]
     
     def raw_depends(self):
-        return [ dep.name for entry in self.deps if entry.name == 'dep' for dep in entry.deps ]
+        return [ dep for entry in self.deps if entry.name == 'dep' for dep in entry.deps ]
 
     def sources(self):
         """Matches `raw_sources` file patterns (using glob) in the filesystem when called"""
