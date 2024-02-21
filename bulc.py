@@ -13,8 +13,10 @@ class Target():
         self.id = target.id
         self.name = target.name
         self.deps = target.deps
-        self.type = TargetType.EXE
         # These deps are 'src', 'inc', 'pri' and 'dep'
+        self.type = TargetType.EXE
+        self.build = self.name + '.out'
+        # TODO: Detect if artifacts in the project.yaml pollute build name (aka clean name)
         
     def raw_sources(self):
         return [ src for entry in self.deps if entry.name == 'src' for src in entry.deps ]
@@ -53,6 +55,7 @@ class Target():
         return {
             "name": self.name,
             "type": self.type.name,
+            "build": self.build,
             "sources": self.sources(),
             "headers": self.headers(),
             "private": self.private(),
@@ -88,6 +91,7 @@ class Project(Target):
                 for dep_y in target_y.raw_depends():
                     if dep_y.id == target_x.id:
                         target_x.type = TargetType.LIB
+                        target_x.build = 'lib' + target_x.name + '.a'
                     
     def expand(self):
         return {
