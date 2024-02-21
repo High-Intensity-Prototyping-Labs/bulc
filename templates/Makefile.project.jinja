@@ -9,17 +9,17 @@
 {{ target.type.name }}_{{ target.name }}_INC_DIRS := {% for inc in target.includes() %}{{ inc }} {% endfor %}
 {{ target.type.name }}_{{ target.name }}_INC_FLAGS := $(addprefix -I,$({{ target.type.name }}_{{ target.name }}_INC_DIRS))
 {{ target.type.name }}_{{ target.name }}_LIBS := {% for lib in target.depends() %}{{ lib }} {% endfor %}
-{{ target.type.name }}_{{ target.name }}_LDFLAGS := $(addprefix -l,$({{ target.type.name }}_{{ target.name }}_LIBS))
+{{ target.type.name }}_{{ target.name }}_LDFLAGS := -L$(BUILD_DIR) $(addprefix -l,$({{ target.type.name }}_{{ target.name }}_LIBS))
+{{ target.type.name }}_{{ target.name }}_PREREQS := $(addprefix $(BUILD_DIR)/,$({{ target.type.name }}_{{ target.name }}_LIBS))
 {%- endmacro -%}
 
 {%- macro target_recipe(target) -%}
 # Target '{{ target.name }}' Recipe
-{%- if target.type == 'EXE' %}
-$(BUILD_DIR)/$({{ target.type.name }}_{{ target.name }}): $({{ target.type.name }}_{{ target.name }}_OBJS)
+$(BUILD_DIR)/$({{ target.type.name }}_{{ target.name }}): $({{ target.type.name }}_{{ target.name }}_OBJS) $({{ target.type.name }}_{{ target.name }}_PREREQS)
+{%- if target.type.name == 'EXE' %}
 	$(CC) $({{ target.type.name }}_{{ target.name }}_OBJS) -o $@ $({{ target.type.name }}_{{ target.name }}_LDFLAGS)
 {% else %}
-$(BUILD_DIR)/$({{ target.type.name }}_{{ target.name }}): $({{ target.type.name }}_{{ target.name }}_OBJS)
-	$(AR) -crs $@ $({{ target.type.name }}_{{ target.name }}_OBJS) $({{ target.type.name }}_{{ target.name }}_LIBS)
+	$(AR) -crs $(BUILD_DIR)/lib$({{ target.type.name }}_{{ target.name }}).a $({{ target.type.name }}_{{ target.name }}_OBJS) $({{ target.type.name }}_{{ target.name }}_LIBS)
 {% endif %}
 {%- endmacro %}
 
