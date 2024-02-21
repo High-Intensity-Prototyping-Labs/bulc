@@ -1,6 +1,6 @@
 # Thanks to Job Vranish (https://spin.atomicobject.com/2016/08/26/makefile-c-projects/)
 
-{% macro decl_target(target) %}
+{%- macro decl_target(target) -%}
 # Declaring Target '{{ target.name }}'
 {{ target.type.name }}_{{ target.name }} := {{ target.name }}
 {{ target.type.name }}_{{ target.name }}_SRCS := {% for src in target.sources() %}{{ src }} {% endfor %}
@@ -11,13 +11,18 @@
 {{ target.type.name }}_{{ target.name }}_LIBS := {% for lib in target.depends() %}{{ lib }} {% endfor %}
 {{ target.type.name }}_{{ target.name }}_LDFLAGS := $(addprefix -l,$({{ target.type.name }}_{{ target.name }}_LIBS))
 {% if target.type.name == 'LIB' %}LIB_TARD ALERT LIB_TARD ALERT HOLY CRAP{% endif %}
-{% endmacro -%}
+{%- endmacro -%}
 
-{% macro target_recipe(target) %}
+{%- macro target_recipe(target) -%}
 # Target '{{ target.name }}' Recipe
+{%- if target.type == 'EXE' %}
 $(BUILD_DIR)/$({{ target.type.name }}_{{ target.name }}): $({{ target.type.name }}_{{ target.name }}_OBJS)
 	$(CC) $({{ target.type.name }}_{{ target.name }}_OBJS) -o $@ $({{ target.type.name }}_{{ target.name }}_LDFLAGS)
-{% endmacro -%}
+{% else %}
+$(BUILD_DIR)/$({{ target.type.name }}_{{ target.name }}): $({{ target.type.name }}_{{ target.name }}_OBJS)
+	$(AR) -crs $@ $({{ target.type.name }}_{{ target.name }}_OBJS) $({{ target.type.name }}_{{ target.name }}_LIBS)
+{% endif %}
+{%- endmacro -%}
 
 
 BUILD_DIR := ./build
@@ -32,9 +37,9 @@ CPPFLAGS := {% for target in project.targets %}$({{ target.type.name }}_{{ targe
 
 all: {% for target in project.targets %}$(BUILD_DIR)/$({{ target.type.name }}_{{ target.name }}) {% endfor %}
 
-{%- for target in project.targets %}
+{% for target in project.targets -%}
 {{ target_recipe(target) }}
-{%- endfor %}
+{% endfor -%}
 
 # Build step for C source
 $(BUILD_DIR)/%.c.o: %.c
@@ -44,6 +49,7 @@ $(BUILD_DIR)/%.c.o: %.c
 .PHONY: all clean
 clean:
 	rm -r $(BUILD_DIR)
+
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those
 # errors to show up.
