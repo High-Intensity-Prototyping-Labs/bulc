@@ -43,8 +43,8 @@ class Target():
         return [ pri for raw_pri in self.raw_private() for pri in glob.glob(raw_pri.name, recursive=True) ]
 
     def depends(self):
-        """Return value of `raw_depends`"""
-        return [ raw_depends.name for raw_depends in self.raw_depends() ]
+        """Return build names of target dependencies (libraries)"""
+        return [ raw_depends.build for raw_depends in self.raw_depends() ]
 
     def includes(self):
         """Return the list of unique include directories inferred from self.headers()"""
