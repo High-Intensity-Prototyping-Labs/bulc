@@ -10,7 +10,6 @@
 {{ target.type.name }}_{{ target.name }}_INC_FLAGS := $(addprefix -I,$({{ target.type.name }}_{{ target.name }}_INC_DIRS))
 {{ target.type.name }}_{{ target.name }}_LIBS := {% for lib in target.depends() %}{{ lib }} {% endfor %}
 {{ target.type.name }}_{{ target.name }}_LDFLAGS := $(addprefix -l,$({{ target.type.name }}_{{ target.name }}_LIBS))
-{% if target.type.name == 'LIB' %}LIB_TARD ALERT LIB_TARD ALERT HOLY CRAP{% endif %}
 {%- endmacro -%}
 
 {%- macro target_recipe(target) -%}
