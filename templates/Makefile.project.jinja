@@ -21,14 +21,15 @@ $(BUILD_DIR)/$({{ target.type.name }}_{{ target.name }}): $({{ target.type.name 
 $(BUILD_DIR)/$({{ target.type.name }}_{{ target.name }}): $({{ target.type.name }}_{{ target.name }}_OBJS)
 	$(AR) -crs $@ $({{ target.type.name }}_{{ target.name }}_OBJS) $({{ target.type.name }}_{{ target.name }}_LIBS)
 {% endif %}
-{%- endmacro -%}
-
+{%- endmacro %}
 
 BUILD_DIR := ./build
 
-{%- for target in project.targets %}
+{% for target in project.targets -%}
 {{ decl_target(target) }}
-{%- endfor %}
+
+{% endfor -%}
+
 
 # The -MMD and -MP flags together generate Makefiles for us!
 # These files will have .d instead of .o as the output.
