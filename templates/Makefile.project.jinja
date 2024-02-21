@@ -19,7 +19,7 @@ $(BUILD_DIR)/$({{ target.type.name }}_{{ target.name }}): $({{ target.type.name 
 {%- if target.type.name == 'EXE' %}
 	$(CC) $({{ target.type.name }}_{{ target.name }}_OBJS) -o $@ $({{ target.type.name }}_{{ target.name }}_LDFLAGS)
 {% else %}
-	$(AR) -crs $(BUILD_DIR)/lib$({{ target.type.name }}_{{ target.name }}).a $({{ target.type.name }}_{{ target.name }}_OBJS) $({{ target.type.name }}_{{ target.name }}_LIBS)
+	$(AR) -crs $@ $({{ target.type.name }}_{{ target.name }}_OBJS) $({{ target.type.name }}_{{ target.name }}_LIBS)
 {% endif %}
 {%- endmacro %}
 
