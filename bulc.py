@@ -79,16 +79,6 @@ class Project(Target):
     def raw_depends(self):
         return [ lib for dep in self.targets for lib in dep.raw_depends() ]
 
-    # FIXME: This func could conflate targets sharing names but not IDs
-    def type_of(self, search_target):
-        """Return the specified target type"""
-        for target in self.targets:
-            if target.id == search_target.id:
-                continue 
-            if search_target.name in target.depends():
-                return 'bul.LIB'
-        return 'bul.EXE'
-
     def update_targets(self):
         other_targets = []
         for target_x in self.targets:
