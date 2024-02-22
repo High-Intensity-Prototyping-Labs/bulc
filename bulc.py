@@ -44,7 +44,7 @@ class Target():
 
     def depends(self):
         """Return build names of target dependencies (libraries)"""
-        return [ raw_depends.build for raw_depends in self.raw_depends() ]
+        return [ raw_depends.name for raw_depends in self.raw_depends() ]
 
     def includes(self):
         """Return the list of unique include directories inferred from self.headers()"""
