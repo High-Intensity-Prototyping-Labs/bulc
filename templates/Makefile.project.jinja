@@ -2,7 +2,7 @@
 
 {%- macro decl_target(target) -%}
 # Declaring Target '{{ target.name }}'
-{{ target.type.name }}_{{ target.name }} := {{ target.name }}
+{{ target.type.name }}_{{ target.name }} := {{ target.build }}
 {{ target.type.name }}_{{ target.name }}_SRCS := {% for src in target.sources() %}{{ src }} {% endfor %}
 {{ target.type.name }}_{{ target.name }}_OBJS := $({{ target.type.name }}_{{ target.name }}_SRCS:%=$(BUILD_DIR)/%.o)
 {{ target.type.name }}_{{ target.name }}_DEPS := $({{ target.type.name }}_{{ target.name }}_OBJS:.o=.d)
@@ -10,7 +10,8 @@
 {{ target.type.name }}_{{ target.name }}_INC_FLAGS := $(addprefix -I,$({{ target.type.name }}_{{ target.name }}_INC_DIRS))
 {{ target.type.name }}_{{ target.name }}_LIBS := {% for lib in target.depends() %}{{ lib }} {% endfor %}
 {{ target.type.name }}_{{ target.name }}_LDFLAGS := -L$(BUILD_DIR) $(addprefix -l,$({{ target.type.name }}_{{ target.name }}_LIBS))
-{{ target.type.name }}_{{ target.name }}_PREREQS := $(addprefix $(BUILD_DIR)/,$({{ target.type.name }}_{{ target.name }}_LIBS))
+{{ target.type.name }}_{{ target.name }}_REQS := {% for lib in target.depends() %}lib{{ lib }}.a {% endfor %}
+{{ target.type.name }}_{{ target.name }}_PREREQS := $(addprefix $(BUILD_DIR)/,$({{ target.type.name }}_{{ target.name }}_REQS))
 {%- endmacro -%}
 
 {%- macro target_recipe(target) -%}
