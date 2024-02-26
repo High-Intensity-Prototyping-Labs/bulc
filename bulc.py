@@ -53,33 +53,21 @@ class Target():
         self.build = self.name + '.out'
         # TODO: Detect if artifacts in the project.yaml pollute build name (aka clean name)
         
-    def raw_sources(self):
-        return [ src for entry in self.c_deps if entry.name == 'src' for src in entry.c_deps ]
-    
-    def raw_headers(self):
-        return [ inc for entry in self.c_deps if entry.name == 'inc' for inc in entry.c_deps ]
-    
-    def raw_private(self):
-        return [ pri for entry in self.c_deps if entry.name == 'pri' for pri in entry.c_deps ]
-    
-    def raw_depends(self):
-        return [ dep for entry in self.c_deps if entry.name == 'dep' for dep in entry.c_deps ]
-
     def sources(self):
         """Matches `raw_sources` file patterns (using glob) in the filesystem when called"""
-        return [ src for raw_src in self.raw_sources() for src in glob.glob(raw_src.name, recursive=True) ]
+        return [ glob_src for src in self.srcs for glob_src in glob.glob(src.name, recursive=True) ]
 
     def headers(self):
         """Matches `raw_headers` file patterns (using glob) in the filesystem when called"""
-        return [ inc for raw_inc in self.raw_headers() for inc in glob.glob(raw_inc.name, recursive=True) ]
+        return [ glob_inc for inc in self.incs for glob_inc in glob.glob(inc.name, recursive=True) ]
 
     def private(self):
         """Matches `raw_private` file patterns (using glob) in the filesystem when called"""
-        return [ pri for raw_pri in self.raw_private() for pri in glob.glob(raw_pri.name, recursive=True) ]
+        return [ glob_pri for pri in self.pris for glob_pri in glob.glob(pri.name, recursive=True) ]
 
     def depends(self):
         """Return build names of target dependencies (libraries)"""
-        return [ raw_depends.name for raw_depends in self.raw_depends() ]
+        return [ raw_depends.name for raw_depends in self.deps ]
 
     def includes(self):
         """Return the list of unique include directories inferred from self.headers()"""
