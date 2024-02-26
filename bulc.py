@@ -25,6 +25,9 @@ class Core(bul.Core):
 
         return init_targets
 
+    def raw_c_targets(self):
+        return super().raw_targets()
+
     def raw_targets(self):
         return self.__init_targets__(super().raw_targets())
 
@@ -92,8 +95,7 @@ class Project(Target):
     def __init__(self, from_file):
         self.core = Core(from_file)
 
-        # FIXME: Initialize super() using c_target not bulc.Target from bulc.Core
-        super().__init__(self.core.raw_targets()[0])
+        super().__init__(self.core.raw_c_targets()[0])
         self.targets = self.core.targets()
 
     def raw_sources(self):
