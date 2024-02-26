@@ -30,10 +30,7 @@ class Core(bul.Core):
 
     def targets(self):
         raw_targets = self.raw_targets()
-        targets = []
-        for c_dep in raw_targets[0].c_deps:
-            targets.append(raw_targets[c_dep.id])
-        return targets
+        return [ raw_targets[c_dep.id] for c_dep in raw_targets[0].c_deps ]
 
 class Target():
     def __init__(self, target, parent=None):
