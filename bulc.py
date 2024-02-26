@@ -57,7 +57,7 @@ class Target():
         """Matches `raw_sources` file patterns (using glob) in the filesystem when called"""
         return [ glob_src for src in self.srcs for glob_src in glob.glob(src.name, recursive=True) ]
 
-    def headers(self):
+    def includes(self):
         """Matches `raw_headers` file patterns (using glob) in the filesystem when called"""
         return [ glob_inc for inc in self.incs for glob_inc in glob.glob(inc.name, recursive=True) ]
 
@@ -69,9 +69,9 @@ class Target():
         """Return build names of target dependencies (libraries)"""
         return [ raw_depends.name for raw_depends in self.deps ]
 
-    def includes(self):
+    def include_dirs(self):
         """Return the list of unique include directories inferred from self.headers()"""
-        return set([ str(Path(inc).parent) for inc in self.headers() ])
+        return set([ str(Path(inc).parent) for inc in self.includes() ])
 
     def expand(self):
         """Return the dictionary form of the target to pass to template renderer"""
@@ -80,10 +80,10 @@ class Target():
             "type": self.type.name,
             "build": self.build,
             "sources": self.sources(),
-            "headers": self.headers(),
+            "includes": self.includes(),
             "private": self.private(),
             "depends": self.depends(),
-            "includes": self.includes(),
+            "include_dirs": self.include_dirs(),
         }
 
 class Project(Target):
