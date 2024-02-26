@@ -8,6 +8,26 @@ class TargetType(Enum):
     EXE = auto()
     LIB = auto()
 
+class Core(bul.Core):
+    """Bulc Wrapper for the bul.Core object."""
+
+    def __init__(self, from_file):
+        super().__init__(from_file)
+
+    def __init_targets__(self, c_targets):
+        init_targets = [ Target(c_target) for c_target in c_targets ]
+
+        for target in init_targets:
+            target.deps = [ dep for entry in target.c_deps if entry.name == 'dep' for dep in entry.deps ]
+
+        return init_targets
+
+    def raw_targets(self):
+        return self.__init_targets__(super().raw_targets())
+
+    def targets(self):
+        return self.__init_targets__(super().targets())
+
 class Target():
     def __init__(self, target):
         self.id = target.id
