@@ -29,11 +29,15 @@ class Core(bul.Core):
         return self.__init_targets__(super().raw_targets())
 
     def targets(self):
-        return self.__init_targets__(super().targets())
+        raw_targets = self.raw_targets()
+        targets = []
+        for c_dep in raw_targets[0].c_deps:
+            targets.append(raw_targets[c_dep.id])
+        return targets
 
 class Target():
-    def __init__(self, target):
-        self.id = target.id
+    def __init__(self, target, parent=None):
+        self.id = target.id     # Position of this target in the pool
         self.name = target.name
         self.c_deps = target.deps
         # These deps are 'src', 'inc', 'pri' and 'dep'
