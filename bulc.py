@@ -18,7 +18,11 @@ class Core(bul.Core):
         init_targets = [ Target(c_target) for c_target in c_targets ]
 
         for target in init_targets:
+            target.srcs = [ src for entry in target.c_deps if entry.name == 'src' for src in entry.deps ]
+            target.incs = [ inc for entry in target.c_deps if entry.name == 'inc' for inc in entry.deps ]
             target.deps = [ init_targets[dep.id] for entry in target.c_deps if entry.name == 'dep' for dep in entry.deps ]
+            target.pris = [ pri for entry in target.c_deps if entry.name == 'pri' for pri in entry.deps ]
+
             # Update based on deps
             for dep in target.deps:
                 dep.type = TargetType.LIB
@@ -41,7 +45,10 @@ class Target():
         self.name = target.name
         self.c_deps = target.deps
         # These deps are 'src', 'inc', 'pri' and 'dep'
+        self.srcs = []
+        self.incs = []
         self.deps = []
+        self.pris = []
         self.type = TargetType.EXE
         self.build = self.name + '.out'
         # TODO: Detect if artifacts in the project.yaml pollute build name (aka clean name)
