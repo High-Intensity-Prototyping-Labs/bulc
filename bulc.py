@@ -58,40 +58,40 @@ class Target():
         if ignore_deps:
             return [ glob_src for src in self.srcs for glob_src in glob.glob(src.name, recursive=True) ]
         else:
-            return self.sources(ignore_deps=True) + [ dep_src for dep in self.deps for dep_src in dep.sources(ignore_deps=False) ]
+            return list(set(self.sources(ignore_deps=True) + [ dep_src for dep in self.deps for dep_src in dep.sources(ignore_deps=False) ]))
 
     def includes(self, ignore_deps=True):
         """Matches `raw_headers` file patterns (using glob) in the filesystem when called"""
         if ignore_deps:
             return [ glob_inc for inc in self.incs for glob_inc in glob.glob(inc.name, recursive=True) ]
         else:
-            return self.includes(ignore_deps=True) + [ dep_inc for dep in self.deps for dep_inc in dep.includes(ignore_deps=False) ]
+            return list(set(self.includes(ignore_deps=True) + [ dep_inc for dep in self.deps for dep_inc in dep.includes(ignore_deps=False) ]))
 
     def private(self, ignore_deps=True):
         """Matches `raw_private` file patterns (using glob) in the filesystem when called"""
         if ignore_deps:
             return [ glob_pri for pri in self.pris for glob_pri in glob.glob(pri.name, recursive=True) ]
         else:
-            return self.private(ignore_deps=True) + [ dep_pri for dep in self.deps for dep_pri in dep.private(ignore_deps=False) ]
+            return list(set(self.private(ignore_deps=True) + [ dep_pri for dep in self.deps for dep_pri in dep.private(ignore_deps=False) ]))
 
     def depends(self, ignore_deps=True):
         """Return build names of target dependencies (libraries)"""
         if ignore_deps:
             return [ dep.name for dep in self.deps ]
         else:
-            return self.depends(ignore_deps=True) + [ dep_dep for dep in self.deps for dep_dep in dep.depends(ignore_deps=False) ]
+            return list(set(self.depends(ignore_deps=True) + [ dep_dep for dep in self.deps for dep_dep in dep.depends(ignore_deps=False) ]))
 
     def include_dirs(self, ignore_deps=True):
         """Return the list of unique include directories inferred from self.headers()"""
         if ignore_deps:
-            return set(
+            return list(set(
                 [ str(Path(inc).parent) for inc in self.includes() ]
-            )
+            ))
         else:
-            return set(
-                list(self.include_dirs(ignore_deps=True)) +
+            return list(set(
+                self.include_dirs(ignore_deps=True) +
                 [ dep_inc_dir for dep in self.deps for dep_inc_dir in dep.include_dirs(ignore_deps=False) ]
-            )
+            ))
 
     def expand(self):
         """Return the dictionary form of the target to pass to template renderer"""
