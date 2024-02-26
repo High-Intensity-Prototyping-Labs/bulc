@@ -18,10 +18,10 @@ class Core(bul.Core):
         init_targets = [ Target(c_target) for c_target in c_targets ]
 
         for target in init_targets:
-            target.srcs = [ src for entry in target.c_deps if entry.name == 'src' for src in entry.deps ]
-            target.incs = [ inc for entry in target.c_deps if entry.name == 'inc' for inc in entry.deps ]
+            target.srcs = [ init_targets[src.id] for entry in target.c_deps if entry.name == 'src' for src in entry.deps ]
+            target.incs = [ init_targets[inc.id] for entry in target.c_deps if entry.name == 'inc' for inc in entry.deps ]
             target.deps = [ init_targets[dep.id] for entry in target.c_deps if entry.name == 'dep' for dep in entry.deps ]
-            target.pris = [ pri for entry in target.c_deps if entry.name == 'pri' for pri in entry.deps ]
+            target.pris = [ init_targets[pri.id] for entry in target.c_deps if entry.name == 'pri' for pri in entry.deps ]
 
             # Update based on deps
             for dep in target.deps:
