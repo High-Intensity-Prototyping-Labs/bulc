@@ -36,7 +36,7 @@ class Core(bul.Core):
         return [ raw_targets[c_dep.id] for c_dep in raw_targets[0].c_deps ]
 
 class Target():
-    def __init__(self, target, parent=None):
+    def __init__(self, target):
         self.id = target.id     # Position of this target in the pool
         self.name = target.name
         self.c_deps = target.deps
