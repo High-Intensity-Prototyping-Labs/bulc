@@ -92,6 +92,7 @@ class Project(Target):
     def __init__(self, from_file):
         self.core = Core(from_file)
 
+        # FIXME: Initialize super() using c_target not bulc.Target from bulc.Core
         super().__init__(self.core.raw_targets()[0])
         self.targets = self.core.targets()
 
