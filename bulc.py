@@ -18,8 +18,7 @@ class Core(bul.Core):
         init_targets = [ Target(c_target) for c_target in c_targets ]
 
         for target in init_targets:
-            # TODO: Refer to Target(t)s rather than c_deps
-            target.deps = [ dep for entry in target.c_deps if entry.name == 'dep' for dep in entry.deps ]
+            target.deps = [ init_targets[dep.id] for entry in target.c_deps if entry.name == 'dep' for dep in entry.deps ]
             # Update based on deps
             for dep in target.deps:
                 dep.type = TargetType.LIB
