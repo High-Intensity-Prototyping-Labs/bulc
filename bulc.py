@@ -35,23 +35,24 @@ class Target():
     def __init__(self, target):
         self.id = target.id
         self.name = target.name
-        self.deps = target.deps
+        self.c_deps = target.deps
         # These deps are 'src', 'inc', 'pri' and 'dep'
+        self.deps = []
         self.type = TargetType.EXE
         self.build = self.name + '.out'
         # TODO: Detect if artifacts in the project.yaml pollute build name (aka clean name)
         
     def raw_sources(self):
-        return [ src for entry in self.deps if entry.name == 'src' for src in entry.deps ]
+        return [ src for entry in self.c_deps if entry.name == 'src' for src in entry.c_deps ]
     
     def raw_headers(self):
-        return [ inc for entry in self.deps if entry.name == 'inc' for inc in entry.deps ]
+        return [ inc for entry in self.c_deps if entry.name == 'inc' for inc in entry.c_deps ]
     
     def raw_private(self):
-        return [ pri for entry in self.deps if entry.name == 'pri' for pri in entry.deps ]
+        return [ pri for entry in self.c_deps if entry.name == 'pri' for pri in entry.c_deps ]
     
     def raw_depends(self):
-        return [ dep for entry in self.deps if entry.name == 'dep' for dep in entry.deps ]
+        return [ dep for entry in self.c_deps if entry.name == 'dep' for dep in entry.c_deps ]
 
     def sources(self):
         """Matches `raw_sources` file patterns (using glob) in the filesystem when called"""
