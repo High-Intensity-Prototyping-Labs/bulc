@@ -19,6 +19,9 @@ class Core(bul.Core):
 
         for target in init_targets:
             target.deps = [ dep for entry in target.c_deps if entry.name == 'dep' for dep in entry.deps ]
+            # Update based on deps
+            for dep in target.deps:
+                dep.type = TargetType.LIB
 
         return init_targets
 
@@ -85,10 +88,10 @@ class Target():
 
 class Project(Target):
     def __init__(self, from_file):
-        self.core = bul.Core(from_file=from_file)
+        self.core = Core(from_file)
+
         super().__init__(self.core.raw_targets()[0])
-        self.targets = [ Target(t) for t in self.deps ]
-        self.update_targets()
+        self.targets = self.core.targets()
 
     def raw_sources(self):
         return [ src for dep in self.targets for src in dep.raw_sources() ]
@@ -102,17 +105,6 @@ class Project(Target):
     def raw_depends(self):
         return [ lib for dep in self.targets for lib in dep.raw_depends() ]
 
-    def update_targets(self):
-        other_targets = []
-        for target_x in self.targets:
-            for target_y in self.targets:
-                if target_x.id == target_y.id:
-                    continue 
-                for dep_y in target_y.raw_depends():
-                    if dep_y.id == target_x.id:
-                        target_x.type = TargetType.LIB
-                        target_x.build = 'lib' + target_x.name + '.a'
-                    
     def expand(self):
         return {
             "targets": [ target.expand() for target in self.targets ]
