@@ -4,7 +4,7 @@
 - module_msn
 - module_pay
 - module_rf
-- modules
+- libmodules.a
 
 - module_cmd:
   - src:
@@ -46,7 +46,7 @@
   - dep:
     - 'pthread'
 
-- modules:
+- libmodules.a:
   - dep:
     - module_cmd
     - module_gps
