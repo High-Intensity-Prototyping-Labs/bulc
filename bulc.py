@@ -35,6 +35,8 @@ class Core(bul.Core):
         init_targets = [ Target(c_target) for c_target in c_targets ]
 
         for target in init_targets:
+            target.type = infer_type(target.name)
+
             target.srcs = [ init_targets[src.id] for entry in target.c_deps if entry.name == 'src' for src in entry.deps ]
             target.incs = [ init_targets[inc.id] for entry in target.c_deps if entry.name == 'inc' for inc in entry.deps ]
             target.deps = [ init_targets[dep.id] for entry in target.c_deps if entry.name == 'dep' for dep in entry.deps ]
