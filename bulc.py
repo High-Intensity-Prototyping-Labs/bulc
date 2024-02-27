@@ -64,13 +64,11 @@ class Target():
         self.name = target.name
         self.c_deps = target.deps
         # These deps are 'src', 'inc', 'pri' and 'dep'
+        self.type = TargetType.EXE
         self.srcs = []
         self.incs = []
         self.deps = []
         self.pris = []
-        self.type = TargetType.EXE
-        self.build = self.name + '.out'
-        # TODO: Detect if artifacts in the project.yaml pollute build name (aka clean name)
         
     def sources(self, ignore_deps=True):
         """Matches `raw_sources` file patterns (using glob) in the filesystem when called"""
