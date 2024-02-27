@@ -3,6 +3,7 @@ import bulgogi as bul
 import glob
 from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 from pathlib import Path
+import re
 
 class TargetType(Enum):
     EXE = auto()
@@ -92,6 +93,18 @@ class Target():
                 self.include_dirs(ignore_deps=True) +
                 [ dep_inc_dir for dep in self.deps for dep_inc_dir in dep.include_dirs(ignore_deps=False) ]
             ))
+
+    def clean_name(self):
+        """
+        Return the clean name version of `Target.name`.
+        If regex pattern match fails, the target's original name is returned.
+        """
+
+        match = re.search(r'(^lib){0,1}([\w]+)(.a$|.out$){0,1}', self.name)
+        if match is not None:
+            return match.group(2)
+        else:
+            return self.name
 
     def expand(self):
         """Return the dictionary form of the target to pass to template renderer"""
