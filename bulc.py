@@ -106,6 +106,17 @@ class Target():
         else:
             return self.name
 
+    def build_name(self):
+        """
+        Return the target compile output name based on `Target.type`.
+        Makes use of the `Target.clean_name()` to ensure artifacts do not compound.
+        """
+
+        if self.type == TargetType.EXE:
+            return self.clean_name() + '.out'
+        else:
+            return 'lib' + self.clean_name() + '.a'
+
     def expand(self):
         """Return the dictionary form of the target to pass to template renderer"""
         return {
