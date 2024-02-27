@@ -130,8 +130,6 @@ class Project(Target):
             "targets": [ target.expand() for target in self.targets ]
         }
 
-# TODO: Implement a strategy to de-duplicate sources/headers/private in an elegant way (non-redundant)
-
 def print_target(target):
     print(target.raw_sources())
     print(target.raw_headers())
