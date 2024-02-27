@@ -9,6 +9,22 @@ class TargetType(Enum):
     EXE = auto()
     LIB = auto()
 
+def infer_type(name):
+    """
+    Infer TargetType based on the provided `name`.
+    Defaults to `TargetType.EXE` when no explicit match.
+    """
+
+    libmatch = re.fullmatch(r'(^lib)([\w]+)(.a$)', name)
+    exematch = re.fullmatch(r'([\w]+)(.out$)', name)
+
+    if libmatch is not None:
+        return TargetType.LIB 
+    elif exematch is not None:
+        return TargetType.EXE 
+    else:
+        return TargetType.EXE
+
 class Core(bul.Core):
     """Bulc Wrapper for the bul.Core object."""
 
