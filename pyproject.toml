@@ -1,0 +1,43 @@
+[build-system]
+requires = [
+        "setuptools >= 61.0",
+        "setuptools-scm>=8.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bulc"
+dynamic = ["version"]
+dependencies = [
+        "bulgogi==0.1.5",
+        "jinja2==3.1.3",
+]
+authors = [
+        { name="Alex Amellal", email="bulgogi@alexamellal.com" },
+]
+description="Build file generator for GNU Make."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+        "Development Status :: 2 - Pre-Alpha",
+        "Programming Language :: C",
+        "Programming Language :: Python",
+        "Intended Audience :: Developers",
+        "Operating System :: MacOS",
+        "Topic :: Software Development :: Build Tools",
+]
+
+[tool.setuptools_scm]
+
+[project.urls]
+Homepage = "https://bulgogi.dev"
+Issues = "https://github.com/high-intensity-prototyping-labs/bulc/issues"
+
+[project.scripts]
+# TODO
+# bulc-cli = "bulc:cli"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["bulc"]
+namespaces = false
