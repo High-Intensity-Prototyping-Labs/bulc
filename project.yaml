@@ -1,55 +1,17 @@
-# __forward_decs__:
-- module_cmd
-- module_gps
-- module_msn
-- module_pay
-- module_rf
-- libmodules.a
+# Forward Declarations
+- mantis_lib
+- mantis_exe
 
-- module_cmd:
+- mantis_lib:
   - src:
-    - 'CubeSat-Core/src/modules/cmd/src/*.c'
+    - 'MANTIS-EPS/src/mantis.c'
+    - 'MANTIS-EPS/src/root.c'
+    - 'MANTIS-EPS/src/util.c'
   - inc:
-    - 'CubeSat-Core/src/modules/cmd/inc/*.h'
-  - dep:
-    - 'pthread'
+    - 'MANTIS-EPS/inc/**/*.h'
 
-- module_gps:
+- mantis_exe:
   - src:
-    - 'CubeSat-Core/src/modules/gps/src/*.c'
-  - inc:
-    - 'CubeSat-Core/src/modules/gps/inc/*.h'
+    - 'MANTIS-EPS/src/main.c'
   - dep:
-    - 'pthread'
-
-- module_msn:
-  - src:
-    - 'CubeSat-Core/src/modules/msn/src/*.c'
-  - inc:
-    - 'CubeSat-Core/src/modules/msn/inc/*.h'
-  - dep:
-    - 'pthread'
-
-- module_pay:
-  - src:
-    - 'CubeSat-Core/src/modules/pay/src/*.c'
-  - inc:
-    - 'CubeSat-Core/src/modules/pay/inc/*.h'
-  - dep:
-    - 'pthread'
-
-- module_rf:
-  - src:
-    - 'CubeSat-Core/src/modules/rf/src/*.c'
-  - inc:
-    - 'CubeSat-Core/src/modules/rf/inc/*.h'
-  - dep:
-    - 'pthread'
-
-- libmodules.a:
-  - dep:
-    - module_cmd
-    - module_gps
-    - module_msn
-    - module_pay
-    - module_rf
+    - mantis_lib

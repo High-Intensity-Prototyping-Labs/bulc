@@ -1,0 +1,75 @@
+# __forward_decs__:
+- module_cmd
+- module_gps
+- module_msn
+- module_pay
+- module_rf
+- libmodules.a
+- client_api
+- ipc
+
+# System Libs
+- module_cmd:
+  - src:
+    - 'CubeSat-Core/src/modules/cmd/src/*.c'
+  - inc:
+    - 'CubeSat-Core/src/modules/cmd/inc/*.h'
+  - dep:
+    - 'client_api'
+    - 'ipc'
+
+- module_gps:
+  - src:
+    - 'CubeSat-Core/src/modules/gps/src/*.c'
+  - inc:
+    - 'CubeSat-Core/src/modules/gps/inc/*.h'
+  - dep:
+    - 'client_api'
+    - 'ipc'
+
+- module_msn:
+  - src:
+    - 'CubeSat-Core/src/modules/msn/src/*.c'
+  - inc:
+    - 'CubeSat-Core/src/modules/msn/inc/*.h'
+  - dep:
+    - 'client_api'
+    - 'ipc'
+
+- module_pay:
+  - src:
+    - 'CubeSat-Core/src/modules/pay/src/*.c'
+  - inc:
+    - 'CubeSat-Core/src/modules/pay/inc/*.h'
+  - dep:
+    - 'client_api'
+    - 'ipc'
+
+- module_rf:
+  - src:
+    - 'CubeSat-Core/src/modules/rf/src/*.c'
+  - inc:
+    - 'CubeSat-Core/src/modules/rf/inc/*.h'
+  - dep:
+    - 'client_api'
+    - 'ipc'
+
+- client_api:
+  - src:
+    - 'CubeSat-Core/src/api/client_api/src/client_api.c'
+  - inc:
+    - 'CubeSat-Core/src/api/client_api/inc/client_api.h'
+
+- ipc:
+  - src:
+    - 'CubeSat-Core/src/api/libipc/src/*.c'
+  - inc:
+    - 'CubeSat-Core/src/api/libipc/inc/**/*.h'
+
+- libmodules.a:
+  - dep:
+    - module_cmd
+    - module_gps
+    - module_msn
+    - module_pay
+    - module_rf
