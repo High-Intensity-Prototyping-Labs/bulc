@@ -3,22 +3,26 @@ BUILD_DIR := build
 {% for target in project.targets %}
 {{ target.clean_name() }}_SRC := {% for src in target.sources() %}{{ src }} {% endfor %}
 {{ target.clean_name() }}_OBJ := $(patsubst %,$(BUILD_DIR)/%.o,$({{ target.clean_name() }}_SRC))
-{{ target.clean_name() }}_LIB := {% for dep in target.deps %}{{ dep.build_name() }} {% endfor %}
+{{ target.clean_name() }}_INC := {% for inc_dir in target.include_dirs(ignore_deps=False) %}{{ inc_dir }} {% endfor %}
+{{ target.clean_name() }}_LIB := {% for dep in target.depends() %}{{ dep }} {% endfor %}
+{{ target.clean_name() }}_CPPFLAGS := {% for inc_dir in target.include_dirs(ignore_deps=False) %}-I{{ inc_dir }} {% endfor %}
 {{ target.clean_name() }}_LDFLAGS := -L$(BUILD_DIR) {% for dep in target.depends() %}-l{{ dep }} {% endfor %}
 {% endfor %}
 
-all: {% for target in project.targets %}$(BUILD_DIR)/{{ target.build_name() }} {% endfor %}
+CPPFLAGS := {% for target in project.targets %}{% for inc_dir in target.include_dirs() %}-I{{ inc_dir }} {% endfor %}{% endfor %}
+
+all: {% for target in project.targets %}{{ target.clean_name() }} {% endfor %}
 
 $(BUILD_DIR)/%.c.o: %.c
 	mkdir -p $(dir $@)
-	$(CC) $< -c $@
+	$(CC) $(CPPFLAGS) -c $< -o $@
 
 {% for target in project.targets %}
-$(BUILD_DIR)/{{ target.build_name() }}: $({{ target.clean_name() }}_OBJ) $({{ target.clean_name() }}_LIB)
+{{ target.clean_name() }}: $({{ target.clean_name() }}_OBJ) $({{ target.clean_name() }}_LIB)
 {%- if target.type.name == 'EXE' %}
-	$(CC) $({{ target.clean_name() }}_OBJ) -o $@ $({{ target.clean_name() }}_LDFLAGS)
+	$(CC) $({{ target.clean_name() }}_OBJ) -o $(BUILD_DIR)/{{ target.build_name() }} $({{ target.clean_name() }}_LDFLAGS)
 {%- else %}
-	$(AR) -crs $@ $({{ target.clean_name() }}_OBJ) $({{ target.clean_name() }}_LIB)
+	$(AR) -crs $(BUILD_DIR)/{{ target.build_name() }} $({{ target.clean_name() }}_OBJ) $({{ target.clean_name() }}_LIB)
 {% endif %}
 {% endfor %}
 
