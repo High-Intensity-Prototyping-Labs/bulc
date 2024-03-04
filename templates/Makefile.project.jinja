@@ -6,11 +6,11 @@
 {{ target.type.name }}_{{ target.clean_name() }}_SRCS := {% for src in target.sources() %}{{ src }} {% endfor %}
 {{ target.type.name }}_{{ target.clean_name() }}_OBJS := $({{ target.type.name }}_{{ target.clean_name() }}_SRCS:%=$(BUILD_DIR)/%.o)
 {{ target.type.name }}_{{ target.clean_name() }}_DEPS := $({{ target.type.name }}_{{ target.clean_name() }}_OBJS:.o=.d)
-{{ target.type.name }}_{{ target.clean_name() }}_INC_DIRS := {% for inc in target.includes(ignore_deps=False) %}{{ inc }} {% endfor %}
+{{ target.type.name }}_{{ target.clean_name() }}_INC_DIRS := {% for inc in target.include_dirs(ignore_deps=False) %}{{ inc }} {% endfor %}
 {{ target.type.name }}_{{ target.clean_name() }}_INC_FLAGS := $(addprefix -I,$({{ target.type.name }}_{{ target.clean_name() }}_INC_DIRS))
-{{ target.type.name }}_{{ target.clean_name() }}_LIBS := {% for lib in target.depends() %}{{ lib }} {% endfor %}
+{{ target.type.name }}_{{ target.clean_name() }}_LIBS := {% for lib in target.depends(ignore_deps=False) %}{{ lib }} {% endfor %}
 {{ target.type.name }}_{{ target.clean_name() }}_LDFLAGS := -L$(BUILD_DIR) $(addprefix -l,$({{ target.type.name }}_{{ target.clean_name() }}_LIBS))
-{{ target.type.name }}_{{ target.clean_name() }}_REQS := {% for lib in target.depends() %}lib{{ lib }}.a {% endfor %}
+{{ target.type.name }}_{{ target.clean_name() }}_REQS := {% for lib in target.depends(ignore_deps=False) %}lib{{ lib }}.a {% endfor %}
 {{ target.type.name }}_{{ target.clean_name() }}_PREREQS := $(addprefix $(BUILD_DIR)/,$({{ target.type.name }}_{{ target.clean_name() }}_REQS))
 {%- endmacro -%}
 
