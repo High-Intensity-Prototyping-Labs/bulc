@@ -138,7 +138,8 @@ class Target():
         return {
             "name": self.name,
             "type": self.type.name,
-            "build": self.build,
+            "clean_name": self.clean_name(),
+            "build_name": self.build_name(),
             "sources": self.sources(),
             "includes": self.includes(),
             "private": self.private(),
