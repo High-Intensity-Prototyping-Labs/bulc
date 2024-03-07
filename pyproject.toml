@@ -38,6 +38,4 @@ Issues = "https://github.com/high-intensity-prototyping-labs/bulc/issues"
 # bulc-cli = "bulc:cli"
 
 [tool.setuptools.packages.find]
-where = ["."]
-include = ["bulc"]
-namespaces = false
+where = ["bulc.d"]
