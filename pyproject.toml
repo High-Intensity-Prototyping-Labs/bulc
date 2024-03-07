@@ -27,6 +27,9 @@ classifiers = [
         "Topic :: Software Development :: Build Tools",
 ]
 
+[tool.setuptools]
+py-modules = []
+
 [tool.setuptools_scm]
 
 [project.urls]
@@ -36,6 +39,3 @@ Issues = "https://github.com/high-intensity-prototyping-labs/bulc/issues"
 [project.scripts]
 # TODO
 # bulc-cli = "bulc:cli"
-
-[tool.setuptools.packages.find]
-where = ["bulc.d"]
