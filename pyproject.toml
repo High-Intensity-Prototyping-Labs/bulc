@@ -28,7 +28,7 @@ classifiers = [
 ]
 
 [tool.setuptools]
-py-modules = []
+py-modules = ["bulc"]
 
 [tool.setuptools_scm]
 
