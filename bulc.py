@@ -4,6 +4,7 @@ import glob
 from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 from pathlib import Path
 import re
+import argparse
 
 def env_from_filesystem():
     return Environment(loader=FileSystemLoader(['', 'templates', Path.home() / '.config' / 'bulc' / 'templates']), autoescape=select_autoescape()) 
@@ -198,3 +199,22 @@ def print_target(target):
     print(target.includes())
     
     print('')
+
+def cli():
+    nargs = 2
+
+    parser = argparse.ArgumentParser(description='Command line template compiler')
+
+    parser.add_argument('compile', nargs=nargs, metavar='file', type = str, help = 'bulc file.yml template.jinja > output.file')
+
+    args = parser.parse_args()
+
+    if len(args.compile) == nargs:
+        project = Project(args.compile[0])
+        print(template(env(), args.compile[1]).render({"project": project}))
+    else:
+        parser.print_help()
+
+if __name__ == '__main__':
+    cli()
+
