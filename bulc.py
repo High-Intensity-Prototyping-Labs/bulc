@@ -11,6 +11,9 @@ def env_from_filesystem():
 def env_from_package():
     return Environment(loader=PackageLoader('bulc'), autoescape=select_autoescape())
 
+def env():
+    return env_from_filesystem()
+
 def template(env, template_name):
     return env.get_template(template_name)
 
