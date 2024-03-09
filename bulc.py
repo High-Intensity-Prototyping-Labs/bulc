@@ -5,10 +5,13 @@ from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoad
 from pathlib import Path
 import re
 
-def setup_env():
+def env_from_filesystem():
     return Environment(loader=FileSystemLoader('templates'), autoescape=select_autoescape()) 
 
-def load_template(env, template_name):
+def env_from_package():
+    return Environment(loader=PackageLoader('bulc'), autoescape=select_autoescape())
+
+def template(env, template_name):
     return env.get_template(template_name)
 
 class TargetType(Enum):
