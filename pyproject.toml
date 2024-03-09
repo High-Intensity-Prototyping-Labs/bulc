@@ -37,5 +37,4 @@ Homepage = "https://bulgogi.dev"
 Issues = "https://github.com/high-intensity-prototyping-labs/bulc/issues"
 
 [project.scripts]
-# TODO
-# bulc-cli = "bulc:cli"
+bulc = "bulc:cli"
